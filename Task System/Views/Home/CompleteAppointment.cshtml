@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Complete Appointment";
+}
+
+<h1 class="mb-4 text-center">Complete Appointment</h1>
+
+<form method="post" asp-action="CompleteAppointment" asp-controller="Home">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group mb-3">
+        <label for="Name">Patient Name:</label>
+        <input type="text" class="form-control" id="Name" name="Name" required>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="AppointmentDate">Appointment Date</label>
+        <input type="date" class="form-control" id="AppointmentDate" name="AppointmentDate" required>
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="AppointmentTime">Appointment Time</label>
+        <input type="time" class="form-control" id="AppointmentTime" name="AppointmentTime" step="1800" required>
+       
+        <small class="form-text text-muted">You can only book between 8am and 5pm, every half hour</small>
+    </div>
+
+    <br />
+    <button type="submit" class="btn btn-primary w-100">Complete Appointment</button>
+</form>
+
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger mt-4 text-center">@ViewBag.ErrorMessage</div>
+}
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success mt-4 text-center">@ViewBag.SuccessMessage</div>
+}
+
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Appointment Completed</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Your appointment has been successfully completed. Thank you!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var success = '@ViewBag.SuccessMessage';
+            if (success && success !== '') {
+                var myModal = new bootstrap.Modal(document.getElementById('successModal'));
+                myModal.show();
+            }
+        });
+    </script>
+}
